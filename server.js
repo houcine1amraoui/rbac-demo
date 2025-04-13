@@ -4,7 +4,12 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 
 import { loadUsers, addUser } from "./users_db.js";
-import { loadPosts, addPost } from "./posts_db.js";
+import {
+  loadPosts,
+  addPost,
+  deletePostById,
+  updatePostTitleById,
+} from "./posts_db.js";
 import { isAuthenticated } from "./middleware/auth.js";
 import { permit } from "./middleware/permit.js";
 
@@ -12,17 +17,14 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-// get post of a specific user
-// user should authenticate
-// then authorization is performed based on username
-app.get("/posts", isAuthenticated, async (req, res) => {
+//
+app.get("/posts", isAuthenticated, permit("read:post"), async (req, res) => {
   const username = req.username;
   const posts = loadPosts();
   res.json(posts.filter((post) => post.author === username));
 });
 
-// create a post by a specific user
-// user should authenticate
+//
 app.post("/posts", isAuthenticated, permit("create:post"), async (req, res) => {
   const { title } = req.body;
   if (!title) {
@@ -32,6 +34,43 @@ app.post("/posts", isAuthenticated, permit("create:post"), async (req, res) => {
   addPost(title);
   res.send("Post created successfully");
 });
+
+//
+app.put(
+  "/posts/:id",
+  isAuthenticated,
+  permit("update:post"),
+  async (req, res) => {
+    const { id } = req.params;
+    const { title } = req.body;
+    const posts = loadPosts();
+    const exist = posts.find((p) => p.id === id);
+    if (!exist) {
+      return res.send("Post with given id does not exist");
+    }
+
+    updatePostTitleById(id, title);
+    res.send("Post updated successfully");
+  }
+);
+
+//
+app.delete(
+  "/posts/:id",
+  isAuthenticated,
+  permit("delete:post"),
+  async (req, res) => {
+    const { id } = req.params;
+    const posts = loadPosts();
+    const exist = posts.find((p) => p.id === id);
+    if (!exist) {
+      return res.send("Post with given id does not exist");
+    }
+
+    deletePostById(id);
+    res.send("Post deleted successfully");
+  }
+);
 
 // also called signup
 app.post("/register", async (req, res) => {

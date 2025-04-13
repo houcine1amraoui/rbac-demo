@@ -1,7 +1,8 @@
+// policy
 export const roles = {
   admin: ["create:post", "read:post", "update:post", "delete:post"],
   editor: ["create:post", "read:post", "update:post"],
-  viewer: [],
+  viewer: ["read:post"],
 };
 
 export function permit(...allowedPermissions) {

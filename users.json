@@ -1,29 +1,8 @@
 [
   {
     "id": 1,
-    "username": "mohamed-msila",
-    "email": "mohamed.msila@gmail.com",
-    "password": "mohamed2025"
-  },
-  {
-    "id": 2,
-    "username": "amina-msila",
-    "email": "amina.msila@gmail.com",
-    "password": "amina2025"
-  },
-  {
-    "id": 3
-  },
-  {
-    "id": 4,
-    "username": "test",
-    "password": "test",
+    "username": "admin",
+    "password": "admin",
     "role": "admin"
-  },
-  {
-    "id": 5,
-    "username": "test2",
-    "password": "test2",
-    "role": "viewer"
   }
 ]

@@ -39,8 +39,9 @@ export function savePosts(posts) {
 export function addPost(title, author) {
   const posts = loadPosts();
 
+  const id = posts.length + 1;
   const newPost = {
-    id: posts.length + 1,
+    id: id.toString(),
     title,
     author,
   };
