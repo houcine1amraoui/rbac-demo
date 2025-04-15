@@ -72,19 +72,6 @@ app.delete(
   }
 );
 
-// also called signup
-app.post("/register", async (req, res) => {
-  const { username, password, role } = req.body;
-  if (!username || !password || !role) {
-    return res.json("All fields are required");
-  }
-  const user = addUser(username, password, role);
-  res.json({
-    message: "User created",
-    user: { id: user.id, username: user.username, role: user.role },
-  });
-});
-
 // also called signin
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;

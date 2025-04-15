@@ -3,6 +3,7 @@ export const roles = {
   admin: ["create:post", "read:post", "update:post", "delete:post"],
   editor: ["read:post", "update:post"],
   viewer: ["read:post"],
+  user: [],
 };
 
 export function permit(...allowedPermissions) {
